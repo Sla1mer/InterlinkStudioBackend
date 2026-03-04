@@ -14,6 +14,13 @@ class TelegramService {
 
     private val client = HttpClient(CIO) {
         install(ContentNegotiation) { json() }
+        engine {
+            endpoint {
+                keepAliveTime = 15_000
+                connectTimeout = 5_000
+                requestTimeout = 10_000
+            }
+        }
         expectSuccess = true
     }
 

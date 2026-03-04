@@ -9,6 +9,7 @@ import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.request.receive
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlinx.coroutines.launch
 import ru.interlinkstudio.Model.ApplicationRequest
 
 fun Application.configureRouting() {
@@ -19,8 +20,12 @@ fun Application.configureRouting() {
 
         post("/submit") {
             val body = call.receive<ApplicationRequest>()
-            telegram.sendNotification(body.name, body.communicationAddress, body.message)
+
             call.respond(HttpStatusCode.OK, mapOf("status" to "ok"))
+
+            launch {
+                telegram.sendNotification(body.name, body.communicationAddress, body.message)
+            }
         }
 
     }
