@@ -18,6 +18,10 @@ fun Application.configureRouting() {
     routing {
         staticResources("/images", "static/images")
 
+        get("/health") {
+            call.respondText("OK")
+        }
+
         post("/submit") {
             val body = call.receive<ApplicationRequest>()
 
