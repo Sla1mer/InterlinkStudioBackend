@@ -1,5 +1,6 @@
 package ru.interlinkstudio
 
+import configureRateLimiting
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
@@ -20,6 +21,12 @@ fun Application.configureHTTP() {
         allowHeader(HttpHeaders.ContentType)
         allowHeader(HttpHeaders.Authorization)
         allowHeader("MyCustomHeader")
-        anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
+
+        allowCredentials = true
+
+        allowHost("interlink-studio.ru", schemes = listOf("https"))
+        allowHost("localhost:5173", schemes = listOf("http"))
     }
+
+    configureRateLimiting()
 }
