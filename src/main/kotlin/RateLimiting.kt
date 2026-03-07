@@ -7,7 +7,7 @@ import io.ktor.server.request.*
 
 fun Application.configureRateLimiting() {
     install(RateLimit) {
-        global {
+        register(RateLimitName("submit-limit")) {
             rateLimiter(limit = 10, refillPeriod = 60.seconds)
 
             requestKey { call ->
